@@ -4,7 +4,7 @@
     v-model="isDeleteModalVisible"
     title="Confirm Deletion"
     :message="`Are you sure you want to delete the note '${note.title}'?`"
-    confirmButtonText="Delete"
+    confirmButtonText="删除"
     confirmButtonStyle="danger"
     @confirm="deleteConfirmedHandler"
   />
@@ -12,11 +12,11 @@
   <!-- Save Changes Modal -->
   <ConfirmModal
     v-model="isSaveChangesModalVisible"
-    title="Save Changes"
-    message="Do you want to save your changes?"
-    confirmButtonText="Save"
+    title="保存更改"
+    message="是否要保存更改？"
+    confirmButtonText="保存"
     confirmButtonStyle="success"
-    rejectButtonText="Discard"
+    rejectButtonText="放弃"
     rejectButtonStyle="danger"
     @confirm="saveHandler((close = true))"
     @reject="closeNote"
@@ -25,11 +25,11 @@
   <!-- Draft Modal -->
   <ConfirmModal
     v-model="isDraftModalVisible"
-    title="Draft Detected"
-    message="There is an unsaved draft of this note stored in this browser. Do you want to resume the draft version or delete it?"
-    confirmButtonText="Resume Draft"
+    title="检测到草稿"
+    message="此笔记有一份未保存的草稿存储在此浏览器中。您希望恢复草稿版本还是删除它？"
+    confirmButtonText="恢复草稿"
     confirmButtonStyle="cta"
-    rejectButtonText="Delete Draft"
+    rejectButtonText="删除草稿"
     rejectButtonStyle="danger"
     @confirm="setEditMode()"
     @reject="
@@ -48,7 +48,7 @@
           v-show="editMode"
           v-model.trim="newTitle"
           class="w-full bg-theme-background outline-none"
-          placeholder="Title"
+          placeholder="请输入标题..."
         />
       </div>
 
@@ -57,14 +57,14 @@
         <!-- Delete Button -->
         <CustomButton
           v-show="canModify && !isNewNote"
-          label="Delete"
+          label="删除"
           :iconPath="mdilDelete"
           @click="deleteHandler"
         />
         <!-- Save Button -->
         <CustomButton
           v-show="editMode"
-          label="Save"
+          label="保存"
           :iconPath="mdilContentSave"
           @click="saveHandler((close = false))"
           class="relative ml-1"
@@ -78,7 +78,7 @@
         <!-- Edit Toggle -->
         <Toggle
           v-if="canModify"
-          label="Edit"
+          label="编辑"
           :isOn="editMode"
           class="ml-1"
           @click="toggleEditModeHandler"

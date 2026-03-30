@@ -68,7 +68,7 @@ router.afterEach((to) => {
     if (to.params.title) {
       title = `${to.params.title} - ${title}`;
     } else {
-      title = "New Note - " + title;
+      title = "新建笔记 - " + title;
     }
   }
   document.title = title;

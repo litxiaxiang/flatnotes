@@ -4,6 +4,7 @@
 
 <script setup>
 import Editor from "@toast-ui/editor";
+import '@toast-ui/editor/dist/i18n/zh-cn';
 import { onMounted, ref } from "vue";
 
 import baseOptions from "./baseOptions.js";
@@ -26,6 +27,7 @@ onMounted(() => {
   toastEditor = new Editor({
     ...baseOptions,
     el: editorElement.value,
+    language: 'zh-CN',
     initialValue: props.initialValue,
     initialEditType: props.initialEditType,
     events: {

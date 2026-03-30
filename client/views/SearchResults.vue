@@ -7,7 +7,7 @@
       <!-- Sort By -->
       <div class="flex justify-end">
         <CustomButton
-          :label="`Sort By: ${sortByName}`"
+          :label="`排序方式: ${sortByName}`"
           :iconPath="mdiSort"
           class="mb-1"
           @click="toggleSortMenu"
@@ -73,9 +73,9 @@ const toast = useToast();
 
 const sortByName = computed(() => {
   const sortOptionNames = {
-    [searchSortOptions.title]: "Title",
-    [searchSortOptions.lastModified]: "Last Modified",
-    [searchSortOptions.score]: "Score",
+    [searchSortOptions.title]: "标题",
+    [searchSortOptions.lastModified]: "最后修改",
+    [searchSortOptions.score]: "匹配度",
   };
   return sortOptionNames[props.sortBy];
 });
@@ -123,20 +123,20 @@ function updateSortByParam(sortBy) {
 
 const menuItems = [
   {
-    label: "排序方式: Score",
+    label: "排序方式: 匹配度",
     command: () => {
       updateSortByParam(searchSortOptions.score);
     },
   },
 
   {
-    label: "排序方式: Title",
+    label: "排序方式: 标题",
     command: () => {
       updateSortByParam(searchSortOptions.title);
     },
   },
   {
-    label: "排序方式: Last Modified",
+    label: "排序方式: 最后修改",
     command: () => {
       updateSortByParam(searchSortOptions.lastModified);
     },

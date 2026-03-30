@@ -1,0 +1,43 @@
+# 示例（如果你是本地部署）：
+services:
+  flatnotes:
+    container_name: flatnotes-local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      PUID: 1000
+      PGID: 1000
+      FLATNOTES_AUTH_TYPE: "password"
+      FLATNOTES_USERNAME: "litxiaxiang"
+      FLATNOTES_PASSWORD: "litxiaxiang"
+      FLATNOTES_SECRET_KEY: "litxiaxiang"
+    volumes:
+      - "./data:/data"
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+# 本地访问地址：http://localhost:8080
+
+
+# 示例（如果你是服务器部署）：
+
+# services:
+#   flatnotes:
+#     container_name: flatnotes
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     environment:
+#       PUID: 1000
+#       PGID: 1000
+#       FLATNOTES_AUTH_TYPE: "password"
+#       FLATNOTES_USERNAME: "账号名称" 
+#       FLATNOTES_PASSWORD: "修改为您想要设置的密码"
+#       FLATNOTES_SECRET_KEY: "随便输入一段长随机字符"
+#     volumes:
+#       - "./data:/data"
+#     ports:
+#       - "8081:8080"
+#     restart: unless-stopped

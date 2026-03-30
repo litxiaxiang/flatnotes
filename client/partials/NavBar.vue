@@ -6,13 +6,13 @@
     <div class="flex grow items-start justify-end">
       <!-- New Note -->
       <RouterLink v-if="showNewButton" :to="{ name: 'new' }">
-        <CustomButton :iconPath="mdilPlusCircle" label="New Note" />
+        <CustomButton :iconPath="mdilPlusCircle" label="新建笔记" />
       </RouterLink>
       <!-- Menu -->
       <CustomButton
         class="ml-1"
         :iconPath="mdilMenu"
-        label="Menu"
+        label="菜单"
         @click="toggleMenu"
       />
       <PrimeMenu ref="menu" :model="menuItems" :popup="true" />
