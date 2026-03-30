@@ -2,19 +2,27 @@
 services:
   flatnotes:
     container_name: flatnotes-local
+    # 直接从当前目录的源码构建，确保汉化和修改生效
     build:
       context: .
       dockerfile: Dockerfile
     environment:
+      # 用户 ID 和组 ID，通常保持 1000 即可
       PUID: 1000
       PGID: 1000
+      # 认证类型：可选 password, none, read-only
       FLATNOTES_AUTH_TYPE: "password"
+      # 【必须修改】您的登录用户名
       FLATNOTES_USERNAME: "litxiaxiang"
-      FLATNOTES_PASSWORD: "litxiaxiang"
+      # 【必须修改】您的登录密码
+      FLATNOTES_PASSWORD: "main123456"
+      # 【必须修改】一段长随机字符串，用于加密 Token，建议至少 32 字符
       FLATNOTES_SECRET_KEY: "litxiaxiang"
     volumes:
+      # 笔记数据存放在当前目录的 data 文件夹下
       - "./data:/data"
     ports:
+      # 冒号左边是外部访问端口，可以根据需要修改，冒号右边是容器内部端口，保持不变
       - "8080:8080"
     restart: unless-stopped
 

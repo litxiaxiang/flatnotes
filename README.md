@@ -6,142 +6,108 @@
 </p>
 
 
-A self-hosted, database-less note-taking web app that utilises a flat folder of markdown files for storage.
 
-Log into the [demo site](https://demo.flatnotes.io) and take a look around. *Note: This site resets every 15 minutes.*
+一款自托管、零数据库的 Markdown 笔记系统。直接利用文件夹存储，简单、高效、透明，回归记录本质，为您打造私有零干扰的极致写作空间。
 
-## Contents
+预览 [Demo 网页](https://demo.flatnotes.io) . *注意: 该演示网站每15分钟重置一次。*
 
-* [Design Principle](#design-principle)
-* [Features](#features)
-* [Getting Started](#getting-started)
-  * [Hosted](#hosted)
-  * [Self Hosted](#self-hosted)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
-* [Sponsorship](#sponsorship)
-* [Thanks](#thanks)
+## 📑 目录
 
-## Design Principle
+* [设计理念](#⭐️ 设计理念)
+* [功能特性](#🎉  功能特性)
+* [快速开始](#🚀 快速开始)
+* [发展规划](#🔭 发展规划)
+* [参与贡献](#🤝 参与贡献)
+* [赞助](#👍 赞助)
+* [致谢](#🙏 致谢)
 
-flatnotes is designed to be a distraction-free note-taking app that puts your note content first. This means:
+## ⭐️ 设计理念
 
-* A clean and simple user interface.
-* No folders, notebooks or anything like that. Just all of your notes, backed by powerful search and tagging functionality.
-* Quick access to a full-text search from anywhere in the app (keyboard shortcut "/").
+《扁平笔记》旨在打造一款**零干扰**的云笔记应用，让记录回归内容本身。这意味着：
 
-Another key design principle is not to take your notes hostage. Your notes are just markdown files. There's no database, proprietary formatting, complicated folder structures or anything like that. You're free at any point to just move the files elsewhere and use another app.
+- **界面简洁纯净**：摒弃繁琐，只保留最核心的写作与阅读体验。
+- **结构扁平化**：告别复杂的文件夹、笔记本分级。所有笔记一览无余，通过强大的**搜索**与**标签**功能，让查找变得轻而易举。
+- **极速全局检索**：在应用任何位置，只需按下键盘快捷键 `/` 即可立即启动全文搜索。
 
-Equally, the only thing flatnotes caches is the search index and that's incrementally synced on every search (and when flatnotes first starts). This means that you're free to add, edit & delete the markdown files outside of flatnotes even whilst flatnotes is running.
+​        另一个核心原则是：**不“绑架”您的数据**。您的笔记就是纯粹的 Markdown 文件，没有笨重的数据库，没有私有的加密格式，也没有复杂的文件夹结构。这意味着您拥有绝对的数据自主权，可以随时将文件迁移到其他应用中。
 
-## Features
-
-* Mobile responsive web interface.
-* Raw/WYSIWYG markdown editor modes.
-* Advanced search functionality.
-* Note "tagging" functionality.
-* Customisable home page.
-* Wikilink support to easily link to other notes (`[[My Other Note]]`).
-* Light/dark themes.
-* Multiple authentication options (none, read-only, username/password, 2FA).
-* Restful API.
-
-See [the wiki](https://github.com/dullage/flatnotes/wiki) for more details.
-
-## Getting Started
-
-### Hosted
-
-A quick and easy way to get started with flatnotes is to host it on PikaPods. Just click the button below and follow the instructions.
-
-[![PikaPods](https://www.pikapods.com/static/run-button-34.svg)](https://www.pikapods.com/pods?run=flatnotes)
-
-
-### Self Hosted
-
-If you'd prefer to host flatnotes yourself then the recommendation is to use Docker.
-
-### Example Docker Run Command
-
-```shell
-docker run -d \
-  -e "PUID=1000" \
-  -e "PGID=1000" \
-  -e "FLATNOTES_AUTH_TYPE=password" \
-  -e "FLATNOTES_USERNAME=user" \
-  -e 'FLATNOTES_PASSWORD=changeMe!' \
-  -e "FLATNOTES_SECRET_KEY=aLongRandomSeriesOfCharacters" \
-  -v "$(pwd)/data:/data" \
-  -p "8080:8080" \
-  dullage/flatnotes:latest
-```
-
-### Example Docker Compose
-
-```yaml
-services:
-  flatnotes:
-    container_name: flatnotes
-    build:
-      context: .
-      dockerfile: Dockerfile
-    environment:
-      PUID: 1000
-      PGID: 1000
-      FLATNOTES_AUTH_TYPE: "password"
-      FLATNOTES_USERNAME: "账号名称" 
-      FLATNOTES_PASSWORD: "修改为您想要设置的密码"
-      FLATNOTES_SECRET_KEY: "随便输入一段长随机字符"
-    volumes:
-      - "./data:/data"
-    ports:
-      - "8081:8080"
-    restart: unless-stopped
-```
-
-See the [Environment Variables](https://github.com/dullage/flatnotes/wiki/Environment-Variables) article in the wiki for a full list of configuration options.
+​        同时，《扁平笔记》仅缓存搜索索引，并在程序启动或每次执行搜索时进行增量同步。因此，即使在应用运行期间，您也可以自由地在外部使用其他编辑器（如 Typora 或 VS Code）添加、修改或删除这些 Markdown 文件，系统会自动感应变化。
 
 
 
-## 🚀 Custom Auto-Update (For Forked Version)
+## 🎉  功能特性
 
-This repository includes a custom automation script (`update.sh`) designed for users who deploy the application by building the Docker image directly from this source code (rather than pulling the official pre-built image).
+- **响应式移动界面**：完美适配手机、平板及桌面端，随时随地开启记录。
+- **双模式编辑器**：支持原生 Markdown 源码及“所见即所得”（WYSIWYG）编辑模式。
+- **高级搜索引擎**：基于全文检索的高级搜索功能，瞬间定位所需内容。
+- **灵活标签系统**：通过“标签”功能轻松分类、关联和管理您的笔记。
+- **高度可定制首页**：支持根据个人偏好自由配置首页展示逻辑。
+- **双链引用 (Wikilink)**：支持 `[[双链]]`语法，轻松实现笔记间的跳转与关联。
+- **自适应主题**：内置精美的亮色与暗黑主题，随心切换。
+- **多重安全验证**：提供无验证、只读、用户名密码及 2FA 双重认证等多种访问控制方案。
+- **标准 RESTful API**：开放接口，方便集成到您的自动化工作流或第三方应用中。
 
-### How it works
-
-Whenever you modify the code and push your changes to GitHub, you can simply run this script on your server. It will automatically:
-
-1. Pull the latest source code from this repository (`git pull`).
-2. Rebuild the Docker image and smoothly restart the container (`docker compose up -d --build`).
-3. Clean up dangling and unused images to save server disk space (`docker image prune -f`).
-
-### Usage
-
-Navigate to your project's root directory on your server and execute the script:
-
-```bash
-sudo ./update.sh
-```
+更多详情请参阅原作者 [维基页面](https://github.com/dullage/flatnotes/wiki)。
 
 
 
-## Roadmap
+## 🚀 快速开始
 
-I want to keep flatnotes as simple and distraction-free as possible which means limiting new features. This said, I welcome feedback and suggestions.
+本仓库已预设好 Docker 部署环境，您只需简单几步即可完成部署：
 
-## Contributing
+1. **克隆仓库到您的服务器：**
 
-If you're interested in contributing to flatnotes, then please read the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+   ```bash
+   sudo git clone https://github.com/litxiaxiang/flatnotes.git
+   cd flatnotesSee
+   ```
 
-## Sponsorship
+2. **配置环境变量：** 使用编辑器打开目录下的 `docker-compose.yml`，根据注释修改您的 **用户名**、**密码** 及 **端口号**。
 
-If you find this project useful, please consider buying me a beer. It would genuinely make my day.
+   ```bash
+   nano docker-compose.yml
+   ```
+
+3. **一键启动：**
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+4. **版本更新：** 后续如果您想更新版本，只需执行以下自动化脚本（：
+
+   ```bash
+   cd flatnotesSee
+   sudo ./update.sh
+   ```
+
+​        访问地址：`http://您的服务器IP:端口号`。更多详细配置请参考 [官方 Wiki](https://github.com/dullage/flatnotes/wiki)。
+
+
+
+## 🔭 发展规划
+
+​        我希望《扁平笔记》始终保持极致的简洁与专注，这意味着在功能开发上我会保持**克制**，以避免应用变得臃肿。尽管如此，我依然非常重视每一位用户的声音。如果您有任何改进建议或想法，欢迎随时提供反馈。
+
+
+
+## 🤝 参与贡献
+
+如果您有兴趣为《扁平笔记》贡献代码、修复 Bug 或提供改进建议，我们非常欢迎！请在开始之前阅读 [CONTRIBUTING.md](CONTRIBUTING.md) 文件以了解相关规范。
+
+
+
+## 👍 赞助
+
+如果你觉得这个项目有用，请考虑请我喝杯啤酒。这真的会让我开心一整天。
 
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/Dullage)
 
-## Thanks
 
-A special thanks to 2 fantastic open-source projects that make flatnotes possible.
 
-* [Whoosh](https://whoosh.readthedocs.io/en/latest/intro.html) - A fast, pure Python search engine library.
-* [TOAST UI Editor](https://ui.toast.com/tui-editor) - A GFM Markdown and WYSIWYG editor for the browser.
+## 🙏 致谢
+
+​        特别感谢两个出色的开源项目，它们让flatnotes成为可能。
+
+* [Whoosh](https://whoosh.readthedocs.io/en/latest/intro.html) - 一个快速、纯Python的搜索引擎库。
+* [TOAST UI Editor](https://ui.toast.com/tui-editor) - 一款适用于浏览器的GFM Markdown和所见即所得编辑器。
