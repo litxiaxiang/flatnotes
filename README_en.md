@@ -5,6 +5,7 @@
   <img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/dullage/flatnotes?style=for-the-badge">
 </p>
 
+**English** |  [中文](README.md)
 
 A self-hosted, database-less note-taking web app that utilises a flat folder of markdown files for storage.
 

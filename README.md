@@ -5,7 +5,7 @@
   <img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/dullage/flatnotes?style=for-the-badge">
 </p>
 
-
+**中文** |  [English](README_en.md)
 
 一款自托管、零数据库的 Markdown 笔记系统。直接利用文件夹存储，简单、高效、透明，回归记录本质，为您打造私有零干扰的极致写作空间。
 
