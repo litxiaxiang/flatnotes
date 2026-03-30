@@ -5,6 +5,7 @@
   <img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/dullage/flatnotes?style=for-the-badge">
 </p>
 
+
 A self-hosted, database-less note-taking web app that utilises a flat folder of markdown files for storage.
 
 Log into the [demo site](https://demo.flatnotes.io) and take a look around. *Note: This site resets every 15 minutes.*
@@ -76,6 +77,7 @@ docker run -d \
 ```
 
 ### Example Docker Compose
+
 ```yaml
 services:
   flatnotes:
@@ -87,33 +89,41 @@ services:
       PUID: 1000
       PGID: 1000
       FLATNOTES_AUTH_TYPE: "password"
-      FLATNOTES_USERNAME: "你的名字" 
+      FLATNOTES_USERNAME: "账号名称" 
       FLATNOTES_PASSWORD: "修改为您想要设置的密码"
       FLATNOTES_SECRET_KEY: "随便输入一段长随机字符"
     volumes:
       - "./data:/data"
     ports:
-      - "8080:8080"
+      - "8081:8080"
     restart: unless-stopped
 ```
 
 See the [Environment Variables](https://github.com/dullage/flatnotes/wiki/Environment-Variables) article in the wiki for a full list of configuration options.
+
+
 
 ## 🚀 Custom Auto-Update (For Forked Version)
 
 This repository includes a custom automation script (`update.sh`) designed for users who deploy the application by building the Docker image directly from this source code (rather than pulling the official pre-built image).
 
 ### How it works
+
 Whenever you modify the code and push your changes to GitHub, you can simply run this script on your server. It will automatically:
+
 1. Pull the latest source code from this repository (`git pull`).
 2. Rebuild the Docker image and smoothly restart the container (`docker compose up -d --build`).
 3. Clean up dangling and unused images to save server disk space (`docker image prune -f`).
 
 ### Usage
+
 Navigate to your project's root directory on your server and execute the script:
 
 ```bash
 sudo ./update.sh
+```
+
+
 
 ## Roadmap
 
