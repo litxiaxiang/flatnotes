@@ -52,13 +52,13 @@ const emit = defineEmits(["toggleSearchModal"]);
 
 const menuItems = [
   {
-    label: "Search",
+    label: "搜索",
     icon: mdilMagnify,
     command: () => emit("toggleSearchModal"),
     keyboardShortcut: "/",
   },
   {
-    label: "All Notes",
+    label: "所有笔记",
     icon: mdilNoteMultiple,
     command: () =>
       router.push({
@@ -70,7 +70,7 @@ const menuItems = [
       }),
   },
   {
-    label: "Toggle Theme",
+    label: "切换主题",
     icon: mdilMonitor,
     command: toggleTheme,
   },
@@ -79,7 +79,7 @@ const menuItems = [
     visible: showLogOutButton,
   },
   {
-    label: "Log Out",
+    label: "退出登录",
     icon: mdilLogout,
     command: logOut,
     visible: showLogOutButton,

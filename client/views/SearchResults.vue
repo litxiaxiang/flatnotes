@@ -123,20 +123,20 @@ function updateSortByParam(sortBy) {
 
 const menuItems = [
   {
-    label: "Sort By: Score",
+    label: "排序方式: Score",
     command: () => {
       updateSortByParam(searchSortOptions.score);
     },
   },
 
   {
-    label: "Sort By: Title",
+    label: "排序方式: Title",
     command: () => {
       updateSortByParam(searchSortOptions.title);
     },
   },
   {
-    label: "Sort By: Last Modified",
+    label: "排序方式: Last Modified",
     command: () => {
       updateSortByParam(searchSortOptions.lastModified);
     },
