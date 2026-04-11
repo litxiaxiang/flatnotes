@@ -27,6 +27,7 @@
             >
               <CustomButton 
                 :label="note.title" 
+                allowWrap
                 class="w-full justify-start rounded-xl border-transparent bg-white/60 px-4 py-3 shadow-sm ring-1 ring-black/5 transition-all duration-300 hover:bg-white hover:shadow-md dark:bg-black/40 dark:ring-white/10 dark:hover:bg-black/60"
               />
             </RouterLink>

@@ -1,7 +1,9 @@
+from io import BytesIO
 from typing import List, Literal
+from zipfile import ZIP_DEFLATED, ZipFile
 
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, UploadFile
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
 import api_messages
@@ -12,7 +14,13 @@ from auth.models import Login, Token
 from global_config import AuthType, GlobalConfig, GlobalConfigResponseModel
 from helpers import replace_base_href
 from notes.base import BaseNotes
-from notes.models import Note, NoteCreate, NoteUpdate, SearchResult
+from notes.models import (
+    Note,
+    NoteBatchAction,
+    NoteCreate,
+    NoteUpdate,
+    SearchResult,
+)
 
 global_config = GlobalConfig()
 auth: BaseAuth = global_config.load_auth()
@@ -25,6 +33,25 @@ app = FastAPI(
     openapi_url=global_config.path_prefix + "/openapi.json",
 )
 replace_base_href("client/dist/index.html", global_config.path_prefix)
+
+
+def _get_notes_by_titles(titles: list[str]) -> list[Note]:
+    notes = []
+    seen_titles = set()
+    for title in titles:
+        if title in seen_titles:
+            continue
+        seen_titles.add(title)
+        try:
+            notes.append(note_storage.get(title))
+        except ValueError:
+            raise HTTPException(
+                status_code=400,
+                detail=api_messages.invalid_note_title,
+            )
+        except FileNotFoundError:
+            raise HTTPException(404, api_messages.note_not_found)
+    return notes
 
 
 # region UI
@@ -84,7 +111,39 @@ def get_note(title: str):
         raise HTTPException(404, api_messages.note_not_found)
 
 
+@router.post(
+    "/api/notes/bulk-download",
+    dependencies=auth_deps,
+)
+def bulk_download_notes(data: NoteBatchAction):
+    notes = _get_notes_by_titles(data.titles)
+    archive_buffer = BytesIO()
+    with ZipFile(archive_buffer, "w", ZIP_DEFLATED) as archive:
+        for note in notes:
+            archive.writestr(f"{note.title}.md", note.content or "")
+    archive_buffer.seek(0)
+    return StreamingResponse(
+        archive_buffer,
+        media_type="application/zip",
+        headers={
+            "Content-Disposition": (
+                'attachment; filename="flatnotes-notes.zip"'
+            )
+        },
+    )
+
+
 if global_config.auth_type != AuthType.READ_ONLY:
+
+    @router.post(
+        "/api/notes/bulk-delete",
+        dependencies=auth_deps,
+        response_model=None,
+    )
+    def bulk_delete_notes(data: NoteBatchAction):
+        notes = _get_notes_by_titles(data.titles)
+        for note in notes:
+            note_storage.delete(note.title)
 
     # Create Note
     @router.post(

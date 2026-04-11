@@ -131,6 +131,36 @@ export async function deleteNote(title) {
   }
 }
 
+export async function bulkDeleteNotes(titles) {
+  try {
+    await api.post("api/notes/bulk-delete", { titles: titles });
+  } catch (response) {
+    return Promise.reject(response);
+  }
+}
+
+export async function downloadNotesArchive(titles) {
+  try {
+    const response = await api.post(
+      "api/notes/bulk-download",
+      { titles: titles },
+      { responseType: "blob" },
+    );
+    const disposition = response.headers["content-disposition"];
+    const filenameMatch = disposition?.match(
+      /filename\*=UTF-8''([^;]+)|filename="?([^\"]+)"?/i,
+    );
+    return {
+      blob: response.data,
+      filename: decodeURIComponent(
+        filenameMatch?.[1] || filenameMatch?.[2] || "flatnotes-notes.zip",
+      ),
+    };
+  } catch (response) {
+    return Promise.reject(response);
+  }
+}
+
 export async function getTags() {
   try {
     const response = await api.get("api/tags");

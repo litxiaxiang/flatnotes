@@ -37,12 +37,13 @@ import Logo from "../components/Logo.vue";
 import PrimeMenu from "../components/PrimeMenu.vue";
 import { authTypes, params, searchSortOptions } from "../constants.js";
 import { useGlobalStore } from "../globalStore.js";
-import { toggleTheme } from "../helpers.js";
+import { getThemeMode, setThemeMode, themeModes } from "../helpers.js";
 import { clearStoredToken } from "../tokenStorage.js";
 
 const globalStore = useGlobalStore();
 const menu = ref();
 const router = useRouter();
+const themeMode = ref(getThemeMode());
 
 defineProps({
   hideLogo: Boolean,
@@ -50,7 +51,7 @@ defineProps({
 
 const emit = defineEmits(["toggleSearchModal"]);
 
-const menuItems = [
+const menuItems = computed(() => [
   {
     label: "搜索",
     icon: mdilMagnify,
@@ -70,9 +71,23 @@ const menuItems = [
       }),
   },
   {
-    label: "切换主题",
+    separator: true,
+  },
+  {
+    label: "跟随系统",
     icon: mdilMonitor,
-    command: toggleTheme,
+    command: () => updateThemeMode(themeModes.system),
+    keyboardShortcut: getThemeMarker(themeModes.system),
+  },
+  {
+    label: "浅色",
+    command: () => updateThemeMode(themeModes.light),
+    keyboardShortcut: getThemeMarker(themeModes.light),
+  },
+  {
+    label: "深色",
+    command: () => updateThemeMode(themeModes.dark),
+    keyboardShortcut: getThemeMarker(themeModes.dark),
   },
   {
     separator: true,
@@ -84,7 +99,7 @@ const menuItems = [
     command: logOut,
     visible: showLogOutButton,
   },
-];
+]);
 
 const showNewButton = computed(() => {
   return globalStore.config.authType !== authTypes.readOnly;
@@ -94,6 +109,15 @@ function logOut() {
   clearStoredToken();
   localStorage.clear();
   router.push({ name: "login" });
+}
+
+function getThemeMarker(mode) {
+  return themeMode.value === mode ? "当前" : undefined;
+}
+
+function updateThemeMode(mode) {
+  setThemeMode(mode);
+  themeMode.value = mode;
 }
 
 function toggleMenu(event) {

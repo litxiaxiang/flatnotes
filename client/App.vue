@@ -20,7 +20,7 @@
 import Mousetrap from "mousetrap";
 import "mousetrap/plugins/global-bind/mousetrap-global-bind";
 import { useToast } from "primevue/usetoast";
-import { computed, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import { RouterView, useRoute } from "vue-router";
 
 import { apiErrorHandler, getConfig } from "./api.js";
@@ -38,6 +38,7 @@ const loadingIndicator = ref();
 const navBar = ref();
 const route = useRoute();
 const toast = useToast();
+let stopThemeSync = () => {};
 
 // '/' to search
 Mousetrap.bind("/", () => {
@@ -85,5 +86,11 @@ function toggleSearchModal() {
   isSearchModalVisible.value = !isSearchModalVisible.value;
 }
 
-loadTheme();
+onMounted(() => {
+  stopThemeSync = loadTheme();
+});
+
+onUnmounted(() => {
+  stopThemeSync();
+});
 </script>

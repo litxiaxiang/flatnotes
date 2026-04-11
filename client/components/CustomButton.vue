@@ -1,7 +1,9 @@
 <template>
   <button
-    class="text-nowrap rounded px-2 py-1"
+    class="rounded px-2 py-1 disabled:cursor-not-allowed disabled:opacity-50"
     :class="{
+      'text-nowrap': !allowWrap,
+      '[text-wrap:wrap]': allowWrap,
       'bg-theme-background text-theme-text-muted hover:bg-theme-background-elevated':
         style === 'subtle',
       'border bg-theme-background hover:bg-theme-background-elevated':
@@ -11,9 +13,15 @@
       'border border-theme-success text-theme-success hover:bg-theme-success/10':
         style === 'success',
     }"
+    :disabled="disabled"
   >
     <slot></slot>
-    <IconLabel :iconPath="iconPath" :iconSize="iconSize" :label="label" />
+    <IconLabel
+      :iconPath="iconPath"
+      :iconSize="iconSize"
+      :label="label"
+      :allowWrap="allowWrap"
+    />
   </button>
 </template>
 
@@ -24,6 +32,8 @@ defineProps({
   iconPath: String,
   iconSize: String,
   label: String,
+  disabled: Boolean,
+  allowWrap: Boolean,
   style: {
     type: String,
     default: "subtle",

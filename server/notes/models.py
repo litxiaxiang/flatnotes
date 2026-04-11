@@ -7,16 +7,19 @@ from typing_extensions import Annotated
 from helpers import CustomBaseModel, is_valid_filename, strip_whitespace
 
 
+NoteTitle = Annotated[
+    str,
+    AfterValidator(strip_whitespace),
+    AfterValidator(is_valid_filename),
+]
+
+
 class NoteBase(CustomBaseModel):
     title: str
 
 
 class NoteCreate(CustomBaseModel):
-    title: Annotated[
-        str,
-        AfterValidator(strip_whitespace),
-        AfterValidator(is_valid_filename),
-    ]
+    title: NoteTitle
     content: Optional[str] = Field(None)
 
 
@@ -33,6 +36,10 @@ class NoteUpdate(CustomBaseModel):
         AfterValidator(is_valid_filename),
     ] = Field(None)
     new_content: Optional[str] = Field(None)
+
+
+class NoteBatchAction(CustomBaseModel):
+    titles: List[NoteTitle] = Field(min_length=1)
 
 
 class SearchResult(CustomBaseModel):

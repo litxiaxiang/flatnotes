@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center">
+  <div class="flex min-w-0" :class="{ 'items-center': !allowWrap, 'items-start': allowWrap }">
     <SvgIcon
       v-if="iconPath"
       type="mdi"
@@ -7,7 +7,11 @@
       :size="iconSize"
       :class="{ 'mr-1': label }"
     ></SvgIcon>
-    <span v-if="label">{{ label }}</span>
+    <span
+      v-if="label"
+      class="min-w-0"
+      :class="{ 'break-words whitespace-normal text-left': allowWrap }"
+    >{{ label }}</span>
   </div>
 </template>
 
@@ -21,5 +25,6 @@ defineProps({
     default: "1.25em",
   },
   label: String,
+  allowWrap: Boolean,
 });
 </script>

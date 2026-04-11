@@ -54,11 +54,19 @@
 
       <!-- Buttons -->
       <div class="flex shrink-0 self-end md:self-baseline print:hidden">
+        <!-- Download Button -->
+        <CustomButton
+          v-show="!editMode && !isNewNote"
+          label="下载"
+          :iconPath="mdiDownloadOutline"
+          @click="downloadHandler"
+        />
         <!-- Delete Button -->
         <CustomButton
           v-show="canModify && !isNewNote"
           label="删除"
           :iconPath="mdilDelete"
+          class="ml-1"
           @click="deleteHandler"
         />
         <!-- Save Button -->
@@ -119,7 +127,7 @@
 </style>
 
 <script setup>
-import { mdiNoteOffOutline } from "@mdi/js";
+import { mdiDownloadOutline, mdiNoteOffOutline } from "@mdi/js";
 import { mdilContentSave, mdilDelete } from "@mdi/light-js";
 import Mousetrap from "mousetrap";
 import { useToast } from "primevue/usetoast";
@@ -247,6 +255,21 @@ function deleteConfirmedHandler() {
     .catch((error) => {
       apiErrorHandler(error, toast);
     });
+}
+
+// Note Download
+function downloadHandler() {
+  const markdownBlob = new Blob([note.value.content || ""], {
+    type: "text/markdown;charset=utf-8",
+  });
+  const downloadUrl = URL.createObjectURL(markdownBlob);
+  const downloadLink = document.createElement("a");
+
+  downloadLink.href = downloadUrl;
+  downloadLink.download = `${note.value.title}.md`;
+  downloadLink.click();
+
+  URL.revokeObjectURL(downloadUrl);
 }
 
 // Note Saving
